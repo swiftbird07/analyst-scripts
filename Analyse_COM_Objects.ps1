@@ -24,9 +24,25 @@ param(
 # Define trusted signers within this array
 $trustedSigners = @(
     "Microsoft Corporation",
-    "Microsoft Windows"
-    "Another Trusted Signerp0" # Add more trusted signers as needed
+    "Microsoft Windows",
+    "Elasticsearch",
+    "Logitech",
+    "Magnitude Software",
+    "Simba Technologies Inc.",
+    "Mozilla Corporation",
+    "NVIDIA Corporation",
+    "Google Inc.",
+    "VMware, Inc.",
+    "Malwarebytes Inc.",
+    "Stiftelsen Syncthing",
+    "Discord Inc.",
+    "Valve Corp.",
+    "Wireguard LLC",
+    "Parsec Cloud",
+    "OpenVPN Technologies, Inc.",
+    "Malwarebytes Corporation" # Add more trusted signers as needed
 )
+
 
 # Initialize counters for each signature status
 $script:trustedCount = 0
@@ -48,7 +64,7 @@ function CheckSignature {
 
     $signature = Get-AuthenticodeSignature -FilePath $binaryPath
     $signedByFull = $signature.SignerCertificate.Subject
-    $signedBy = $signedByFull -replace '.*O=([^,]+).*','$1'
+    $signedBy = $signedByFull -replace '.*O="?([^,]+).*','$1'
     $filename = Split-Path $binaryPath -Leaf
 
     if ($verboseSwitch) {
@@ -76,10 +92,10 @@ function CheckSignature {
             Write-Output "Executable: $filename"
             Write-Host "Signed Status: Signed by" -NoNewline; Write-Host " $signedBy " -NoNewline -ForegroundColor Green; Write-Output "- Verified"
         }
-    } elseif ($signature.Status -eq 'UnknownError') {
+    } elseif ($signedBy -eq "") {
         $script:unsignedCount++
         Write-Output "Executable: $filename"
-        Write-Host "Signed Status: UNSIGNED" -ForegroundColor DarkYellow
+        Write-Host "Signed Status: " -NoNewline; Write-Host "UNSIGNED" -ForegroundColor DarkYellow
     } else {
         $script:failedSignatureCount++
         Write-Output "Executable: $filename"
