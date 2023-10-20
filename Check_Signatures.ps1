@@ -133,6 +133,12 @@ function CheckSignature {
     Write-Output ""
 }
 
+# Truncate any unwanted arguments from the path
+if ($file -match '(.+?)"') {
+    $file = $matches[1]
+}
+
+Write-Output $file
 
 if (Test-Path $file -PathType Leaf) {
     # Single file provided
