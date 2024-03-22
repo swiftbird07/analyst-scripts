@@ -1,5 +1,5 @@
 # This small script will check the signature of a COM object's binary
-# Author: @ma0f97
+# Author: @swiftbird07
 # Version: 1.0
 # Arguments: 
 #   -key: Specify a specific registry key path to check (e.g. "HKEY_USERS\S-1-5-21-277831620-2573412192-714610973-1001_Classes\AppXewfz11nnnd1v7scbs4vmxpc1svxc4r90\Shell\open\command")
